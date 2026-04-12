@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ceef965eee9a9e4baea484408c18247, type: 3}
   m_Name: ProjetileId_2
   m_EditorClassIdentifier: Assembly-CSharp::ProjetileId
-  _value: Projectile1ID
+  _value: Projectile2

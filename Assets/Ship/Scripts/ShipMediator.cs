@@ -7,7 +7,7 @@ public class ShipMediator : MonoBehaviour, IShip
 {
     [SerializeField] private MovementController _movementController;
     [SerializeField] private WeaponController _weaponController;
-
+    [SerializeField] private ShipId _shipId;
 
     #region Unity Methods
     private void Update()
@@ -32,5 +32,12 @@ public class ShipMediator : MonoBehaviour, IShip
     #endregion
 
 
+    #region IShip Implementation
+
+    public string Id => _shipId.Value;
     public Transform GetTransform() => transform;
+
+    #endregion
+
+    
 }

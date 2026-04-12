@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectilesConfiguration
   _projectilesPrefabs:
   - {fileID: 3317938344743458055, guid: 1e8521944b7a8b547a8ea1d89b8719e2, type: 3}
-  - {fileID: 3317938344743458055, guid: 267dddb7864cf0e4796807dce92a090c, type: 3}
+  - {fileID: 8399662684732864740, guid: 267dddb7864cf0e4796807dce92a090c, type: 3}

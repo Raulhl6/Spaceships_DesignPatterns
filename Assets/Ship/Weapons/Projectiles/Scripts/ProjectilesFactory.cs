@@ -13,7 +13,7 @@ public class ProjectilesFactory
         _projectilesWarehouse.Configure();
     }
 
-    public Projectile Create(string id, Vector3 position, Quaternion rotation)
+    public ProjectileBase Create(string id, Vector3 position, Quaternion rotation)
     {
         return Object.Instantiate(_projectilesWarehouse.GetProjectileById(id), position, rotation);
     }

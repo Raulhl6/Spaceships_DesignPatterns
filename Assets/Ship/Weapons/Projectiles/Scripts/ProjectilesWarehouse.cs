@@ -2,23 +2,23 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Create ProjectilesConfiguration", fileName = "ProjectilesConfiguration", order = 0)]
+[CreateAssetMenu(menuName = "Create ProjectilesWarehouse", fileName = "ProjectilesWarehouse", order = 0)]
 public class ProjectilesWarehouse : ScriptableObject
 {
-    [SerializeField] private Projectile[] _projectilesPrefabs;
+    [SerializeField] private ProjectileBase[] _projectilesPrefabs;
 
-    private Dictionary<string, Projectile> _idToProjectilesPrefab;
+    private Dictionary<string, ProjectileBase> _idToProjectilesPrefab;
 
     public void Configure()
     {
-        _idToProjectilesPrefab = new Dictionary<string, Projectile>();
+        _idToProjectilesPrefab = new Dictionary<string, ProjectileBase>();
         foreach (var projectile in _projectilesPrefabs)
         {
             _idToProjectilesPrefab.Add(projectile.Id, projectile);
         }
     }
     
-    public Projectile GetProjectileById(string id)
+    public ProjectileBase GetProjectileById(string id)
     {
         if (_idToProjectilesPrefab.TryGetValue(id, out var projectile))
         {

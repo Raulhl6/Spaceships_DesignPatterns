@@ -9,7 +9,7 @@ public class WeaponController : MonoBehaviour
 
     private IShip _ship;
     private float _remainingSecondsToShoot;
-    private Projectile _currentProjectile;
+    private ProjectileBase _currentProjectile;
     private ProjectilesFactory _projectilesFactory;
 
 

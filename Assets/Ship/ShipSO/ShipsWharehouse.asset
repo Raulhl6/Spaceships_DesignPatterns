@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ceef965eee9a9e4baea484408c18247, type: 3}
-  m_Name: ProjetileId_1
-  m_EditorClassIdentifier: Assembly-CSharp::ProjetileId
-  _value: Projectile1
+  m_Script: {fileID: 11500000, guid: 7d41248f2cd28f5429a312bc4a81eb6f, type: 3}
+  m_Name: ShipsWharehouse
+  m_EditorClassIdentifier: Assembly-CSharp::ShipsWharehouse
+  _shipsPrefabs:
+  - {fileID: 5597731852996840793, guid: e5dbf476238f96e45aed79b4e1e67766, type: 3}
