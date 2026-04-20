@@ -3,21 +3,20 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
-    [SerializeField] private float _speed = 5f;
     
+    private Vector2 _speed;
     private IShip _ship;
     private Transform _transform;
     private ICheckLimits _checkLimits;
 
-
-
-    public void Configure(IShip ship, ICheckLimits checkLimits)
+    
+    public void Configure(IShip ship, ICheckLimits checkLimits, Vector2 speed)
     {
         _ship = ship;
         _checkLimits = checkLimits;
         _transform = ship.GetTransform();
+        _speed = speed;
     }
-    
     
     
     public void Move(Vector2 direction)

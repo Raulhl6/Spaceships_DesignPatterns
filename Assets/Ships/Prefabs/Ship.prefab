@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponController
   _projectilesWarehouse: {fileID: 11400000, guid: 5c980fff1b5f04f479f8eb2cdd204759, type: 2}
-  _defaultProjectileId: {fileID: 11400000, guid: 8e8d79f4743dc494e959a0ab83208d81, type: 2}
+  _defaultProjectileId: {fileID: 11400000, guid: 77eb3ad9209bccf4f9063b080074b9c4, type: 2}
   _projectileSpawnPoint: {fileID: 9096605154191573604}
   _fireRateInSeconds: 0.3
 --- !u!1 &7324652164755410555
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c6d82f42fefca4783f3388e9fad16c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementController
-  _speed: 5
+  _speed: {x: 5, y: 1}
 --- !u!1 &8402168111403481321
 GameObject:
   m_ObjectHideFlags: 0

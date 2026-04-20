@@ -22,11 +22,11 @@ public class ShipMediator : MonoBehaviour, IShip
     #region Configure
     private IInput _input;
     
-    public void Configure(IInput input, ICheckLimits limits)
+    public void Configure(IInput input, ICheckLimits limits, Vector2 speed, float fireRate, ProjectileId projectileId)
     {
         _input = input;
-        _movementController.Configure(this, limits);
-        _weaponController.Configure(this);
+        _movementController.Configure(this, limits, speed);
+        _weaponController.Configure(this, fireRate, projectileId);
     }
 
     #endregion

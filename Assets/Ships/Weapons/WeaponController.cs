@@ -3,19 +3,21 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     [SerializeField] private ProjectilesWarehouse _projectilesWarehouse;
-    [SerializeField] private ProjectileId _defaultProjectileId;
     [SerializeField] private Transform _projectileSpawnPoint;
-    [SerializeField] private float _fireRateInSeconds = 0.3f;
-
+    
+    private ProjectileId _defaultProjectileId;
+    private float _fireRateInSeconds = 0.3f;
     private IShip _ship;
     private float _remainingSecondsToShoot;
     private ProjectileBase _currentProjectile;
     private ProjectilesFactory _projectilesFactory;
 
 
-    public void Configure(IShip ship)
+    public void Configure(IShip ship, float fireRate, ProjectileId projectileId)
     {
         _ship = ship;
+        _defaultProjectileId = projectileId;
+        _fireRateInSeconds = fireRate;
         _projectilesWarehouse = Instantiate(_projectilesWarehouse);
         _projectilesFactory = new ProjectilesFactory(_projectilesWarehouse);
         _currentProjectile = _projectilesWarehouse.GetProjectileById(_defaultProjectileId.Value);
