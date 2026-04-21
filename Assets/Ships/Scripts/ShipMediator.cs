@@ -10,6 +10,7 @@ public class ShipMediator : MonoBehaviour, IShip
     [SerializeField] private ShipId _shipId;
 
     #region Unity Methods
+    
     private void Update()
     {
         _movementController.Move(_input.GetMovementVector());

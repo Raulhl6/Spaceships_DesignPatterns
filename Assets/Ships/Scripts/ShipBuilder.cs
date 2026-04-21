@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class ShipBuilder
 {
@@ -7,10 +9,16 @@ public class ShipBuilder
         Unity, Joystick, AI
     }
     
+    public enum ECheckLimitsTypes
+    {
+        InitalPosition, Viewport
+    }
+    
     private Vector3 _position;
     private Quaternion _rotation;
     private IInput _input;
     private ICheckLimits _checkLimits;
+    private ECheckLimitsTypes _checkLimitsType = ECheckLimitsTypes.Viewport;
     private ShipMediator _prefab;
     private ShipToSpawnConfiguration _shipConfiguration;
     private EInputMode _inputMode;
@@ -41,6 +49,12 @@ public class ShipBuilder
         return this;
     }
     
+    public ShipBuilder WithCheckLimitsType(ECheckLimitsTypes checkLimitsType)
+    {
+        _checkLimitsType = checkLimitsType;
+        return this;
+    }
+    
     public ShipBuilder FromPrefab(ShipMediator prefab)
     {
         _prefab = prefab;
@@ -50,6 +64,12 @@ public class ShipBuilder
     public ShipBuilder WithConfiguration(ShipToSpawnConfiguration shipConfiguration)
     {
         _shipConfiguration = shipConfiguration;
+        return this;
+    }
+    
+    public ShipBuilder WithInputMode(EInputMode inputMode)
+    {
+        _inputMode = inputMode;
         return this;
     }
 
@@ -68,8 +88,9 @@ public class ShipBuilder
     public ShipMediator Build()
     {
         ShipMediator ship = Object.Instantiate(_prefab, _position, _rotation);
-        ship.Configure(GetInput(ship),
-            _checkLimits,
+        ship.Configure(
+            GetInput(ship),
+            GetCheckLimits(ship),
             _shipConfiguration.Speed,
             _shipConfiguration.FireRate,
             _shipConfiguration.DefaultProjectileId);
@@ -93,5 +114,21 @@ public class ShipBuilder
                 
         }
         return null;
+    }
+
+    private ICheckLimits GetCheckLimits(ShipMediator ship)
+    {
+        if (_checkLimits != null) return _checkLimits;
+        switch (_checkLimitsType)
+        {
+            case ECheckLimitsTypes.InitalPosition:
+                return new InitialPositionCheckLimits(ship.transform, 10f);
+                break;
+            case ECheckLimitsTypes.Viewport:
+                return new ViewportCheckLimits(ship.transform, Camera.main);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 }

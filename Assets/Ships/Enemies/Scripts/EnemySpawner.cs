@@ -35,13 +35,13 @@ public class EnemySpawner : MonoBehaviour
         {
             var shipConfiguration = spawnConfiguration.ShipToSpawnConfigurations[i];
             var spawnPosition = _spawnPositions[i % _spawnPositions.Length];
-            var shipBuilder = _shipsFactory.Create(shipConfiguration.ShipId.Value,
-                spawnPosition.position,
-                spawnPosition.rotation);
+            var shipBuilder = _shipsFactory.Create(shipConfiguration.ShipId.Value);
             
-            shipBuilder.W
-                .WithInput(new InputAIAdapter(shipBuilder.Build().transform))
-                .WithCheckLimits(new InitialPositionCheckLimits(shipBuilder.Build().transform, 10f))
+            shipBuilder
+                .WithPosition(spawnPosition.position)
+                .WithRotation(spawnPosition.rotation)
+                .WithInputMode(ShipBuilder.EInputMode.AI)
+                .WithCheckLimitsType(ShipBuilder.ECheckLimitsTypes.InitalPosition)
                 .WithConfiguration(shipConfiguration)
                 .Build();
             

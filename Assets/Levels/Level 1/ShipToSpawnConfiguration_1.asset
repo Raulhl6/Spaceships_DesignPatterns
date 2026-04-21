@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ShipToSpawnConfiguration_1
   m_EditorClassIdentifier: Assembly-CSharp::ShipToSpawnConfiguration
   _shipId: {fileID: 11400000, guid: 1627b8fcaa2b64542b94d296c1234e0f, type: 2}
-  _defaultProjectileId: {fileID: 11400000, guid: 77eb3ad9209bccf4f9063b080074b9c4, type: 2}
+  _defaultProjectileId: {fileID: 11400000, guid: 8e8d79f4743dc494e959a0ab83208d81, type: 2}
   _speed: {x: 5, y: 1}
   _fireRate: 1

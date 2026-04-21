@@ -13,13 +13,12 @@ public class ShipsFactory
         _shipsWarehouse.Configure();
     }
 
-    public ShipBuilder Create(string id, Vector3 position, Quaternion rotation)
+    public ShipBuilder Create(string id)
     {
-        var prefab = Object.Instantiate(_shipsWarehouse.GetShipById(id), position, rotation);
+        var prefab = _shipsWarehouse.GetShipById(id);
         
          return new ShipBuilder()
-             .FromPrefab(prefab)
-             .WithPosition(position);
+             .FromPrefab(prefab);
     }
     
 }

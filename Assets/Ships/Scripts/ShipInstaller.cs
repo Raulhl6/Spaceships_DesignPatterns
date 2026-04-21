@@ -10,6 +10,7 @@ public class ShipInstaller : MonoBehaviour
     [SerializeField] private bool _useJoystick;
     [SerializeField] private ShipMediator _ship;
     [SerializeField] private ShipToSpawnConfiguration _playerShipConfiguration;
+    [SerializeField] private ShipsWharehouse _shipsWharehouse;
     
     [Header("Android")]
     [SerializeField] private Joystick _joystick;
@@ -17,25 +18,41 @@ public class ShipInstaller : MonoBehaviour
 
     private void Awake()
     {
-        _ship.Configure(GetInput(),
-            GetCheckLimits(),
-            _playerShipConfiguration.Speed,
-            _playerShipConfiguration.FireRate,
-            _playerShipConfiguration.DefaultProjectileId);
+        var shipFactory = new ShipsFactory(Instantiate(_shipsWharehouse));
+        var shipBuilder = shipFactory.Create(_playerShipConfiguration.ShipId.Value)
+            .WithConfiguration(_playerShipConfiguration);
+        SetInput(shipBuilder);
+        SetCheckLimits(shipBuilder);
+        _ship = shipBuilder.Build();
     }
 
-    private ICheckLimits GetCheckLimits()
+    private void SetCheckLimits(ShipBuilder shipBuilder)
     {
-        if (_useIA)  return new InitialPositionCheckLimits(_ship.transform, 2f);
-        
-        return new ViewportCheckLimits(_ship.transform, Camera.main);
+        if (_useIA)
+        {
+            shipBuilder.WithCheckLimitsType(ShipBuilder.ECheckLimitsTypes.InitalPosition);
+            return;
+        }
+        shipBuilder.WithCheckLimitsType(ShipBuilder.ECheckLimitsTypes.Viewport);
         
     }
 
-    private IInput GetInput()
+    private void SetInput(ShipBuilder shipBuilder)
     {
-        if (_useIA) return new InputAIAdapter(_ship.transform);
-        if (_useJoystick) return new InputJoystickAdapter(_joystick, _fireButton);
-        return InputReaderAdapter.Create();
+        if (_useIA)
+        {
+            shipBuilder.WithInputMode(ShipBuilder.EInputMode.AI);
+            return;
+        }
+        if (_useJoystick)
+        {
+            shipBuilder
+                .WithInputMode(ShipBuilder.EInputMode.Joystick)
+                .WithJoystick(_joystick)
+                .WithJoyButton(_fireButton);
+            return;
+        }
+        
+        shipBuilder.WithInputMode(ShipBuilder.EInputMode.Unity);
     }
 }
