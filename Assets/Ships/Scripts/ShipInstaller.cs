@@ -1,5 +1,6 @@
 ﻿
 
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,7 +9,6 @@ public class ShipInstaller : MonoBehaviour
     [Header("Configuration")]
     [SerializeField] private bool _useIA;
     [SerializeField] private bool _useJoystick;
-    [SerializeField] private ShipMediator _ship;
     [SerializeField] private ShipToSpawnConfiguration _playerShipConfiguration;
     [SerializeField] private ShipsWharehouse _shipsWharehouse;
     
@@ -16,14 +16,16 @@ public class ShipInstaller : MonoBehaviour
     [SerializeField] private Joystick _joystick;
     [SerializeField] private JoyButton _fireButton;
 
+    private ShipBuilder _shipBuilder;
+    private ShipMediator _userShip;
+
     private void Awake()
     {
         var shipFactory = new ShipsFactory(Instantiate(_shipsWharehouse));
-        var shipBuilder = shipFactory.Create(_playerShipConfiguration.ShipId.Value)
+        _shipBuilder = shipFactory.Create(_playerShipConfiguration.ShipId.Value)
             .WithConfiguration(_playerShipConfiguration);
-        SetInput(shipBuilder);
-        SetCheckLimits(shipBuilder);
-        _ship = shipBuilder.Build();
+        SetInput(_shipBuilder);
+        SetCheckLimits(_shipBuilder);
     }
 
     private void SetCheckLimits(ShipBuilder shipBuilder)
@@ -54,5 +56,16 @@ public class ShipInstaller : MonoBehaviour
         }
         
         shipBuilder.WithInputMode(ShipBuilder.EInputMode.Unity);
+    }
+
+    public void SpawnUserShip()
+    {
+        _userShip = _shipBuilder.Build();
+    }
+
+    public void DestroyUserShip()
+    {
+        if (!_userShip) return;
+        Destroy(_userShip.gameObject);
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -10,6 +11,8 @@ public class EnemySpawner : MonoBehaviour
     private ShipsFactory _shipsFactory;
     private float _currentTimeInSeconds;
     private int _currentConfigurationIndex;
+    private bool _canSpawn;
+    private List<ShipMediator> _spawnedShips = new List<ShipMediator>();
 
     private void Awake()
     {
@@ -18,6 +21,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
+        if (!_canSpawn) return;
         if (_currentConfigurationIndex >= _levelConfiguration.SpawnConfigurations.Length) return;
         
         _currentTimeInSeconds += Time.deltaTime;
@@ -37,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
             var spawnPosition = _spawnPositions[i % _spawnPositions.Length];
             var shipBuilder = _shipsFactory.Create(shipConfiguration.ShipId.Value);
             
-            shipBuilder
+            ShipMediator ship = shipBuilder
                 .WithPosition(spawnPosition.position)
                 .WithRotation(spawnPosition.rotation)
                 .WithInputMode(ShipBuilder.EInputMode.AI)
@@ -45,6 +49,23 @@ public class EnemySpawner : MonoBehaviour
                 .WithConfiguration(shipConfiguration)
                 .Build();
             
+            _spawnedShips.Add(ship);
+            
         }
+    }
+
+    public void StartSpawn()
+    {
+        _canSpawn = true;
+    }
+
+    public void StopAndReset()
+    {
+        _canSpawn = false;
+        _currentTimeInSeconds = 0;
+        _currentConfigurationIndex = 0;
+        
+        _spawnedShips.ForEach(s => Destroy(s.gameObject));
+        _spawnedShips.Clear();
     }
 }
