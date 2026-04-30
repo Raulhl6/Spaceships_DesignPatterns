@@ -3,21 +3,22 @@ using UnityEngine;
 
 /** Template method **/
 [RequireComponent(typeof(Rigidbody2D))]
-public abstract class ProjectileBase : MonoBehaviour, IProjectile
+public abstract class ProjectileBase : MonoBehaviour, IProjectile, IDamageable
 {
-    
     [SerializeField] protected ProjectileId _id;
     [SerializeField] protected float _speed = 5f;
     [SerializeField] protected float _lifeTime = 4f;
 
     protected Transform _transform;
     public string Id => _id.Value;
-    
-    private void DestroyProjectile()
+    public ETeams Team { get; private set; }
+
+
+    public virtual void Configure(ETeams team)
     {
-        DoDestroy();
-        Destroy(gameObject);
+        Team = team;
     }
+    
 
     #region Abstract Methods
 
@@ -65,10 +66,26 @@ public abstract class ProjectileBase : MonoBehaviour, IProjectile
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (!other.TryGetComponent(out IDamageable damageable)) return;
+
+        if (damageable.Team == Team) return;
+        
         CancelInvoke(nameof(DestroyProjectile));
-        DestroyProjectile();
+        damageable.AddDamage(100);
     }
 
     #endregion
+    
+    private void DestroyProjectile()
+    {
+        DoDestroy();
+        Destroy(gameObject);
+    }
 
+    
+
+    public void AddDamage(int amount)
+    {
+        DestroyProjectile();
+    }
 }

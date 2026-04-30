@@ -13,8 +13,12 @@ public class ProjectilesFactory
         _projectilesWarehouse.Configure();
     }
 
-    public ProjectileBase Create(string id, Vector3 position, Quaternion rotation)
+    public ProjectileBase Create(string id, Vector3 position, Quaternion rotation, ETeams team)
     {
-        return Object.Instantiate(_projectilesWarehouse.GetProjectileById(id), position, rotation);
+        var prefab = _projectilesWarehouse.GetProjectileById(id);
+        
+        var projectile = Object.Instantiate(prefab, position, rotation);
+        projectile.Configure(team);
+        return projectile;
     }
 }

@@ -19,7 +19,7 @@ public class InputAIAdapter : IInput
         
         var viewPortPoint = _camera.WorldToViewportPoint(_ship.position);
         if (viewPortPoint.x is < 0.1f or > 0.9f) _currentDirectionX *= -1;
-        return new Vector2(_currentDirectionX, 1);
+        return new Vector2(_currentDirectionX, -1);
     }
 
     public bool IsFireActionPressed()

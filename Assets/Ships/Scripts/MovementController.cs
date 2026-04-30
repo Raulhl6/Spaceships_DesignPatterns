@@ -6,23 +6,26 @@ public class MovementController : MonoBehaviour
     
     private Vector2 _speed;
     private IShip _ship;
-    private Transform _transform;
+    private Rigidbody2D _rb;
     private ICheckLimits _checkLimits;
-
+    private Vector2 _currentPosition;
     
+
     public void Configure(IShip ship, ICheckLimits checkLimits, Vector2 speed)
     {
         _ship = ship;
         _checkLimits = checkLimits;
-        _transform = ship.GetTransform();
+        _rb = ship.GetTransform().GetComponent<Rigidbody2D>();
         _speed = speed;
+        _currentPosition = _rb.position;
     }
     
     
     public void Move(Vector2 direction)
     {
-        _transform.Translate(direction * (_speed * Time.deltaTime));
-        _checkLimits.ClampFinalPosition();
+        _currentPosition += direction * (_speed * Time.deltaTime);
+        _currentPosition = _checkLimits.ClampFinalPosition(_currentPosition);
+        _rb.MovePosition(_currentPosition);
     }
 
 }

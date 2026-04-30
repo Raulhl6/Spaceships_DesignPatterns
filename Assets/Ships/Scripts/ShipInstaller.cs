@@ -23,7 +23,8 @@ public class ShipInstaller : MonoBehaviour
     {
         var shipFactory = new ShipsFactory(Instantiate(_shipsWharehouse));
         _shipBuilder = shipFactory.Create(_playerShipConfiguration.ShipId.Value)
-            .WithConfiguration(_playerShipConfiguration);
+            .WithConfiguration(_playerShipConfiguration)
+            .WithTeam(ETeams.Ally);
         SetInput(_shipBuilder);
         SetCheckLimits(_shipBuilder);
     }

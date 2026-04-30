@@ -47,7 +47,9 @@ public class EnemySpawner : MonoBehaviour
                 .WithInputMode(ShipBuilder.EInputMode.AI)
                 .WithCheckLimitsType(ShipBuilder.ECheckLimitsTypes.InitalPosition)
                 .WithConfiguration(shipConfiguration)
+                .WithTeam(ETeams.Enemy)
                 .Build();
+            
             
             _spawnedShips.Add(ship);
             

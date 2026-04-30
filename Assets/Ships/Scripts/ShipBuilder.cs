@@ -24,6 +24,7 @@ public class ShipBuilder
     private EInputMode _inputMode;
     private Joystick _joystick;
     private JoyButton _joyButton;
+    private ETeams _team;
 
     public ShipBuilder WithPosition(Vector3 position)
     {
@@ -84,18 +85,10 @@ public class ShipBuilder
         _joyButton = joyButton;
         return this;
     }
-
-    public ShipMediator Build()
+    public ShipBuilder WithTeam(ETeams team)
     {
-        ShipMediator ship = Object.Instantiate(_prefab, _position, _rotation);
-        ship.Configure(
-            GetInput(ship),
-            GetCheckLimits(ship),
-            _shipConfiguration.Speed,
-            _shipConfiguration.FireRate,
-            _shipConfiguration.DefaultProjectileId);
-        
-        return ship;
+        _team = team;
+        return this;
     }
 
     private IInput GetInput(ShipMediator ship)
@@ -125,10 +118,27 @@ public class ShipBuilder
                 return new InitialPositionCheckLimits(ship.transform, 10f);
                 break;
             case ECheckLimitsTypes.Viewport:
-                return new ViewportCheckLimits(ship.transform, Camera.main);
+                return new ViewportCheckLimits(Camera.main);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+    
+    public ShipMediator Build()
+    {
+        ShipMediator ship = Object.Instantiate(_prefab, _position, _rotation);
+        ShipData data = new ShipData(
+            GetInput(ship),
+            GetCheckLimits(ship),
+            _shipConfiguration.Speed,
+            _shipConfiguration.FireRate,
+            _shipConfiguration.DefaultProjectileId, 
+            _shipConfiguration.Health,
+            _team);
+        
+        ship.Configure(data);
+        
+        return ship;
     }
 }

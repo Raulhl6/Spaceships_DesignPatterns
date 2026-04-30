@@ -11,9 +11,9 @@ public class WeaponController : MonoBehaviour
     private float _remainingSecondsToShoot;
     private ProjectileBase _currentProjectile;
     private ProjectilesFactory _projectilesFactory;
+    private ETeams _team;
 
-
-    public void Configure(IShip ship, float fireRate, ProjectileId projectileId)
+    public void Configure(IShip ship, float fireRate, ProjectileId projectileId, ETeams team)
     {
         _ship = ship;
         _defaultProjectileId = projectileId;
@@ -21,6 +21,7 @@ public class WeaponController : MonoBehaviour
         _projectilesWarehouse = Instantiate(_projectilesWarehouse);
         _projectilesFactory = new ProjectilesFactory(_projectilesWarehouse);
         _currentProjectile = _projectilesWarehouse.GetProjectileById(_defaultProjectileId.Value);
+        _team = team;
     }
     
     private void HandleShootCooldown()
@@ -37,7 +38,12 @@ public class WeaponController : MonoBehaviour
         
         if (canShoot && _remainingSecondsToShoot <= 0)
         {
-            _projectilesFactory.Create(_currentProjectile.Id, _projectileSpawnPoint.position, _projectileSpawnPoint.rotation);
+            var projectile = _projectilesFactory.Create(
+                _currentProjectile.Id,
+                _projectileSpawnPoint.position,
+                _projectileSpawnPoint.rotation,
+                _team);
+
             _remainingSecondsToShoot = _fireRateInSeconds;
         }
     }

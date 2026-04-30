@@ -3,6 +3,6 @@ using UnityEngine;
 public interface ICheckLimits
 {
 
-    void ClampFinalPosition();
+    Vector2 ClampFinalPosition(Vector2 currentPosition);
 
 }
