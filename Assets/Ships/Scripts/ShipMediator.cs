@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public enum ETeams { Ally, Enemy }
 
-public class ShipMediator : MonoBehaviour, IShip
+public class ShipMediator : MonoBehaviour, IShip, IEventObsever
 {
     [SerializeField] private MovementController _movementController;
     [SerializeField] private WeaponController _weaponController;
@@ -10,6 +11,11 @@ public class ShipMediator : MonoBehaviour, IShip
     [SerializeField] private ShipId _shipId;
 
     #region Unity Methods
+
+    private void Start()
+    {
+        EventQueue.Instance.Subscribe(EEventIds.GameOver, this);
+    }
 
     private void Update()
     {
@@ -22,16 +28,23 @@ public class ShipMediator : MonoBehaviour, IShip
         _movementController.Move(_input.GetMovementVector());
     }
 
+    private void OnDestroy()
+    {
+        EventQueue.Instance.UnSubscribe(EEventIds.GameOver, this);
+    }
+
     #endregion
 
 
     #region Configure
 
+    private int _score;
     private IInput _input;
 
     public void Configure(ShipData data)
     {
         _input = data.input;
+        _score = data.score;
         _movementController.Configure(this, data.checkLimits, data.speed);
         _healthController.Configure(this, data.health, data.team);
         _weaponController.Configure(this, data.fireRate, data.DefaultProjectileId, data.team);
@@ -47,7 +60,12 @@ public class ShipMediator : MonoBehaviour, IShip
 
     public void OnDamageReceived(bool isDead)
     {
-        if (isDead) Destroy(gameObject);
+        if (isDead)
+        {
+            Destroy(gameObject);
+            
+            EventQueue.Instance.EnqueueEvent(new ShipDestroyedEventData(_score, _healthController.Team, GetInstanceID()));
+        }
     }
 
     #endregion
@@ -58,5 +76,12 @@ public class ShipMediator : MonoBehaviour, IShip
         if (!other.TryGetComponent(out IDamageable damageable)) return;
         if (damageable.Team == _healthController.Team) return;
         damageable.AddDamage(100);
+    }
+
+    public void Process(EventData eventData)
+    {
+        if (eventData.EventId != EEventIds.GameOver) return;
+        
+        Destroy(gameObject);
     }
 }

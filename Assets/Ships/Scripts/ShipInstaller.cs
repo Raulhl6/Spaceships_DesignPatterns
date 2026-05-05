@@ -17,7 +17,6 @@ public class ShipInstaller : MonoBehaviour
     [SerializeField] private JoyButton _fireButton;
 
     private ShipBuilder _shipBuilder;
-    private ShipMediator _userShip;
 
     private void Awake()
     {
@@ -61,12 +60,7 @@ public class ShipInstaller : MonoBehaviour
 
     public void SpawnUserShip()
     {
-        _userShip = _shipBuilder.Build();
+        _shipBuilder.Build();
     }
 
-    public void DestroyUserShip()
-    {
-        if (!_userShip) return;
-        Destroy(_userShip.gameObject);
-    }
 }

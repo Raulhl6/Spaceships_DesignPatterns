@@ -10,10 +10,11 @@ public class ShipData
     public readonly int health;
     public readonly ProjectileId DefaultProjectileId;
     public readonly ETeams team;
+    public readonly int score;
     
     public ShipData(IInput input, ICheckLimits checkLimits,
         Vector2 speed, float fireRate, ProjectileId defaultProjectileId,
-        int health, ETeams team)
+        int health, ETeams team, int score)
     {
         this.input = input;
         this.checkLimits = checkLimits;
@@ -22,6 +23,7 @@ public class ShipData
         DefaultProjectileId = defaultProjectileId;
         this.health = health;
         this.team = team;
+        this.score = score;
     }
 
     

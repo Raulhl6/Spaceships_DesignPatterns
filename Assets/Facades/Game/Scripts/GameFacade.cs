@@ -9,6 +9,7 @@ public class GameFacade : MonoBehaviour
     
     public void StartBattle()
     {
+        ScoreView.Instance.Reset();
         _enemySpawner.StartSpawn();
         _shipInstaller.SpawnUserShip();
         _screenFade.Hide();
@@ -17,7 +18,6 @@ public class GameFacade : MonoBehaviour
     public void StopBattle()
     {
         _enemySpawner.StopAndReset();
-        _shipInstaller.DestroyUserShip();
         _screenFade.Show();
     }
     

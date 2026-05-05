@@ -135,7 +135,8 @@ public class ShipBuilder
             _shipConfiguration.FireRate,
             _shipConfiguration.DefaultProjectileId, 
             _shipConfiguration.Health,
-            _team);
+            _team,
+            _shipConfiguration.Score);
         
         ship.Configure(data);
         

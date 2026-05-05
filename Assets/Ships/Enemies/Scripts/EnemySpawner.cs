@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
     private float _currentTimeInSeconds;
     private int _currentConfigurationIndex;
     private bool _canSpawn;
-    private List<ShipMediator> _spawnedShips = new List<ShipMediator>();
+
 
     private void Awake()
     {
@@ -50,9 +50,6 @@ public class EnemySpawner : MonoBehaviour
                 .WithTeam(ETeams.Enemy)
                 .Build();
             
-            
-            _spawnedShips.Add(ship);
-            
         }
     }
 
@@ -66,8 +63,6 @@ public class EnemySpawner : MonoBehaviour
         _canSpawn = false;
         _currentTimeInSeconds = 0;
         _currentConfigurationIndex = 0;
-        
-        _spawnedShips.ForEach(s => Destroy(s.gameObject));
-        _spawnedShips.Clear();
     }
+    
 }
