@@ -31,6 +31,11 @@ public class EnemySpawner : MonoBehaviour
         
         SpawnShips(spawnConfiguration);
         _currentConfigurationIndex++;
+
+        if (_currentConfigurationIndex >= _levelConfiguration.SpawnConfigurations.Length)
+        {
+            EventQueue.Instance.EnqueueEvent(new EventData(EEventIds.AllShipSpawned));
+        }
     }
 
     private void SpawnShips(SpawnConfiguration spawnConfiguration)
@@ -51,6 +56,7 @@ public class EnemySpawner : MonoBehaviour
                 .WithBottomCheckDestroyLimits()
                 .Build();
             
+            EventQueue.Instance.EnqueueEvent(new EventData(EEventIds.ShipSpawned));
         }
     }
 

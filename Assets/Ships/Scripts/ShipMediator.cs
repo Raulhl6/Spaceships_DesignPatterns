@@ -15,6 +15,7 @@ public class ShipMediator : MonoBehaviour, IShip, IEventObsever
     private void Start()
     {
         EventQueue.Instance.Subscribe(EEventIds.GameOver, this);
+        EventQueue.Instance.Subscribe(EEventIds.Victory, this);
     }
 
     private void Update()
@@ -31,6 +32,7 @@ public class ShipMediator : MonoBehaviour, IShip, IEventObsever
     private void OnDestroy()
     {
         EventQueue.Instance.UnSubscribe(EEventIds.GameOver, this);
+        EventQueue.Instance.UnSubscribe(EEventIds.Victory, this);
     }
 
     #endregion
@@ -88,7 +90,7 @@ public class ShipMediator : MonoBehaviour, IShip, IEventObsever
 
     public void Process(EventData eventData)
     {
-        if (eventData.EventId != EEventIds.GameOver) return;
+        if (eventData.EventId != EEventIds.GameOver && eventData.EventId != EEventIds.Victory) return;
         
         Destroy(gameObject);
     }

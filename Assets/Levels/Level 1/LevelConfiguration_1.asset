@@ -16,3 +16,6 @@ MonoBehaviour:
   - _shipToSpawnConfigurations:
     - {fileID: 11400000, guid: 6c3bf9ae1182ed34dbb845d7575119bb, type: 2}
     _timeToSpawn: 1
+  - _shipToSpawnConfigurations:
+    - {fileID: 11400000, guid: 6c3bf9ae1182ed34dbb845d7575119bb, type: 2}
+    _timeToSpawn: 2

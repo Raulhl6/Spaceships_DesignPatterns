@@ -1,5 +1,8 @@
 public enum EEventIds 
 {
     ShipDestroyed,
-    GameOver
+    ShipSpawned,
+    AllShipSpawned,
+    GameOver,
+    Victory
 }
