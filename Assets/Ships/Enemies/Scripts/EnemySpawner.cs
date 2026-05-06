@@ -48,6 +48,7 @@ public class EnemySpawner : MonoBehaviour
                 .WithCheckLimitsType(ShipBuilder.ECheckLimitsTypes.InitalPosition)
                 .WithConfiguration(shipConfiguration)
                 .WithTeam(ETeams.Enemy)
+                .WithBottomCheckDestroyLimits()
                 .Build();
             
         }

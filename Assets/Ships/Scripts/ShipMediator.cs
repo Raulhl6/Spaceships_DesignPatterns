@@ -19,10 +19,10 @@ public class ShipMediator : MonoBehaviour, IShip, IEventObsever
 
     private void Update()
     {
-
         _weaponController.HandleShoot(_input.IsFireActionPressed());
+        CheckDestroyLimits();
     }
-
+    
     private void FixedUpdate()
     {
         _movementController.Move(_input.GetMovementVector());
@@ -40,11 +40,13 @@ public class ShipMediator : MonoBehaviour, IShip, IEventObsever
 
     private int _score;
     private IInput _input;
+    private ICheckDestroyLimits _checkDestroyLimits;
 
     public void Configure(ShipData data)
     {
         _input = data.input;
         _score = data.score;
+        _checkDestroyLimits = data.checkDestroyLimits;
         _movementController.Configure(this, data.checkLimits, data.speed);
         _healthController.Configure(this, data.health, data.team);
         _weaponController.Configure(this, data.fireRate, data.DefaultProjectileId, data.team);
@@ -69,7 +71,13 @@ public class ShipMediator : MonoBehaviour, IShip, IEventObsever
     }
 
     #endregion
-
+    
+    private void CheckDestroyLimits()
+    {
+        if (_checkDestroyLimits.IsInsideTheLimits(transform.position)) return;
+        Destroy(gameObject);
+        EventQueue.Instance.EnqueueEvent(new ShipDestroyedEventData(0, _healthController.Team, GetInstanceID()));
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

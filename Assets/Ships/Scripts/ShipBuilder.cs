@@ -25,7 +25,8 @@ public class ShipBuilder
     private Joystick _joystick;
     private JoyButton _joyButton;
     private ETeams _team;
-
+    private ICheckDestroyLimits _checkDestroyLimits = new DoNotCheckDestroyLimitsStrategy();
+    
     public ShipBuilder WithPosition(Vector3 position)
     {
         _position = position;
@@ -90,6 +91,11 @@ public class ShipBuilder
         _team = team;
         return this;
     }
+    public ShipBuilder WithBottomCheckDestroyLimits()
+    {
+        _checkDestroyLimits = new CheckBottomLimitsStrategy(Camera.main);
+        return this;
+    }
 
     private IInput GetInput(ShipMediator ship)
     {
@@ -136,7 +142,8 @@ public class ShipBuilder
             _shipConfiguration.DefaultProjectileId, 
             _shipConfiguration.Health,
             _team,
-            _shipConfiguration.Score);
+            _shipConfiguration.Score,
+            _checkDestroyLimits);
         
         ship.Configure(data);
         

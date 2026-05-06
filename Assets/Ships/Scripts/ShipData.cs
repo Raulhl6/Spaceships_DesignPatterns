@@ -4,6 +4,7 @@ public class ShipData
 {
     public readonly IInput input;
     public readonly ICheckLimits checkLimits;
+    public readonly ICheckDestroyLimits checkDestroyLimits;
 
     public readonly Vector2 speed;
     public readonly float fireRate;
@@ -14,7 +15,7 @@ public class ShipData
     
     public ShipData(IInput input, ICheckLimits checkLimits,
         Vector2 speed, float fireRate, ProjectileId defaultProjectileId,
-        int health, ETeams team, int score)
+        int health, ETeams team, int score, ICheckDestroyLimits checkDestroyLimits)
     {
         this.input = input;
         this.checkLimits = checkLimits;
@@ -24,6 +25,7 @@ public class ShipData
         this.health = health;
         this.team = team;
         this.score = score;
+        this.checkDestroyLimits = checkDestroyLimits;
     }
 
     
