@@ -2924,7 +2924,7 @@ GameObject:
   - component: {fileID: 1716557367}
   - component: {fileID: 1716557368}
   m_Layer: 0
-  m_Name: GameState
+  m_Name: GameStateController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3405,7 +3405,7 @@ MonoBehaviour:
   _screenFade: {fileID: 1012911030}
   _shipInstaller: {fileID: 1572895741}
   _enemySpawner: {fileID: 1268419427}
-  _gameState: {fileID: 1716557368}
+  gameStateController: {fileID: 1716557368}
 --- !u!1001 &5791216834525905638
 PrefabInstance:
   m_ObjectHideFlags: 0
