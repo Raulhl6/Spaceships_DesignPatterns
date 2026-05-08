@@ -1,19 +1,21 @@
 ﻿using System;
+using UnityEngine;
 
 public class VictoryState : IGameSate
 {
-    private readonly GameFacade _gameFacade;
+    private readonly IGameFacade _gameFacade;
 
-    public VictoryState(GameFacade gameFacade)
+    public VictoryState(IGameFacade gameFacade)
     {
         _gameFacade = gameFacade;
     }
 
     public void Start(Action<GameStateController.EGameState> onStateFinished)
     {
+        Debug.Log("Victory Start");
         _gameFacade.StopBattle();
-        EventQueue.Instance.EnqueueEvent(new EventData(EEventIds.Victory));
+        ServiceLocator.Instance.GetService<IEventQueue>().EnqueueEvent(new EventData(EEventIds.Victory));
     }
 
-    public void Stop() {}
+    public void Stop() {Debug.Log("Victory Stop");}
 }

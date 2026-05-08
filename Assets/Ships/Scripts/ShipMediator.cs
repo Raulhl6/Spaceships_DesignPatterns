@@ -14,8 +14,8 @@ public class ShipMediator : MonoBehaviour, IShip, IEventObsever
 
     private void Start()
     {
-        EventQueue.Instance.Subscribe(EEventIds.GameOver, this);
-        EventQueue.Instance.Subscribe(EEventIds.Victory, this);
+        ServiceLocator.Instance.GetService<IEventQueue>().Subscribe(EEventIds.GameOver, this);
+        ServiceLocator.Instance.GetService<IEventQueue>().Subscribe(EEventIds.Victory, this);
     }
 
     private void Update()
@@ -31,8 +31,8 @@ public class ShipMediator : MonoBehaviour, IShip, IEventObsever
 
     private void OnDestroy()
     {
-        EventQueue.Instance.UnSubscribe(EEventIds.GameOver, this);
-        EventQueue.Instance.UnSubscribe(EEventIds.Victory, this);
+        ServiceLocator.Instance.GetService<IEventQueue>().UnSubscribe(EEventIds.GameOver, this);
+        ServiceLocator.Instance.GetService<IEventQueue>().UnSubscribe(EEventIds.Victory, this);
     }
 
     #endregion
@@ -68,7 +68,8 @@ public class ShipMediator : MonoBehaviour, IShip, IEventObsever
         {
             Destroy(gameObject);
             
-            EventQueue.Instance.EnqueueEvent(new ShipDestroyedEventData(_score, _healthController.Team, GetInstanceID()));
+            ServiceLocator.Instance.GetService<IEventQueue>().
+                EnqueueEvent(new ShipDestroyedEventData(_score, _healthController.Team, GetInstanceID()));
         }
     }
 
@@ -78,7 +79,8 @@ public class ShipMediator : MonoBehaviour, IShip, IEventObsever
     {
         if (_checkDestroyLimits.IsInsideTheLimits(transform.position)) return;
         Destroy(gameObject);
-        EventQueue.Instance.EnqueueEvent(new ShipDestroyedEventData(0, _healthController.Team, GetInstanceID()));
+        ServiceLocator.Instance.GetService<IEventQueue>().
+            EnqueueEvent(new ShipDestroyedEventData(0, _healthController.Team, GetInstanceID()));
     }
 
     private void OnTriggerEnter2D(Collider2D other)

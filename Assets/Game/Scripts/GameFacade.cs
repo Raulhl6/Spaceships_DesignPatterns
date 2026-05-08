@@ -1,9 +1,7 @@
 using UnityEngine;
 
-public class GameFacade : MonoBehaviour
+public class GameFacade : MonoBehaviour, IGameFacade
 {
-    
-    [SerializeField] private ScreenFade _screenFade;
     [SerializeField] private ShipInstaller _shipInstaller;
     [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private GameStateController gameStateController;
@@ -13,14 +11,14 @@ public class GameFacade : MonoBehaviour
         ScoreView.Instance.Reset();
         _enemySpawner.StartSpawn();
         _shipInstaller.SpawnUserShip();
-        _screenFade.Hide();
+        ServiceLocator.Instance.GetService<LoadingScreen>().Hide();
         gameStateController.Reset();
     }
 
     public void StopBattle()
     {
         _enemySpawner.StopAndReset();
-        _screenFade.Show();
+        //ServiceLocator.Instance.GetService<LoadingScreen>().Show();
     }
     
 }

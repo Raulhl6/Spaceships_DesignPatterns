@@ -26,12 +26,12 @@ public class ScoreView : MonoBehaviour, IEventObsever
 
     private void Start()
     {
-        EventQueue.Instance.Subscribe(EEventIds.ShipDestroyed, this);
+        ServiceLocator.Instance.GetService<IEventQueue>().Subscribe(EEventIds.ShipDestroyed, this);
     }
 
     private void OnDestroy()
     {
-        EventQueue.Instance.UnSubscribe(EEventIds.ShipDestroyed, this);
+        ServiceLocator.Instance.GetService<IEventQueue>().UnSubscribe(EEventIds.ShipDestroyed, this);
     }
 
     private void AddScore(ETeams killedTeam, int scoreToAdd)

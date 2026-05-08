@@ -6,25 +6,24 @@ public class VictoryView : MonoBehaviour, IEventObsever
 {
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private Button _restartButton;
-    [SerializeField] private GameFacade _gameFacade;
     
 
     private void Start()
     {
         _restartButton.onClick.AddListener(RestartGame);
 
-        EventQueue.Instance.Subscribe(EEventIds.Victory, this);
+        ServiceLocator.Instance.GetService<IEventQueue>().Subscribe(EEventIds.Victory, this);
         gameObject.SetActive(false);
     }
 
     private void OnDestroy()
     {
-        EventQueue.Instance.UnSubscribe(EEventIds.Victory, this);
+        ServiceLocator.Instance.GetService<IEventQueue>().UnSubscribe(EEventIds.Victory, this);
     }
 
     private void RestartGame()
     {
-        _gameFacade.StartBattle();
+        ServiceLocator.Instance.GetService<IGameFacade>().StartBattle();
         gameObject.SetActive(false);
     }
     

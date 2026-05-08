@@ -7,7 +7,6 @@ public class Menu : MonoBehaviour
     
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _stopButton;
-    [SerializeField] private GameFacade _gameFacade;
     
 
     private void Awake()
@@ -16,6 +15,6 @@ public class Menu : MonoBehaviour
         _stopButton.onClick.AddListener(StopBattle);
     }
 
-    private void StartBattle() => _gameFacade.StartBattle();
-    private void StopBattle() => _gameFacade.StopBattle();
+    private void StartBattle() => ServiceLocator.Instance.GetService<IGameFacade>().StartBattle();
+    private void StopBattle() => ServiceLocator.Instance.GetService<IGameFacade>().StopBattle();
 }

@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class GameStateController : MonoBehaviour
 {
-    [SerializeField] private GameFacade _gameFacade;
- 
+
     public enum EGameState
     {
         Playing,
@@ -14,19 +13,19 @@ public class GameStateController : MonoBehaviour
 
     private Dictionary<EGameState, IGameSate> _idToState;
     private IGameSate _currentState;
-
-    private void Awake()
-    {
-        _idToState = new Dictionary<EGameState, IGameSate>
-        {
-            { EGameState.Playing, new PlayingState() },
-            { EGameState.GameOver, new GameOverState(_gameFacade) },
-            { EGameState.Victory, new VictoryState(_gameFacade) }
-        };
-    }
+    
 
     private void Start()
     {
+        var gameFacade = ServiceLocator.Instance.GetService<IGameFacade>();
+        
+        _idToState = new Dictionary<EGameState, IGameSate>
+        {
+            { EGameState.Playing, new PlayingState() },
+            { EGameState.GameOver, new GameOverState(gameFacade) },
+            { EGameState.Victory, new VictoryState(gameFacade) }
+        };
+        
         _currentState = GetState(EGameState.Playing);
         _currentState.Start(OnChangeToNextState);
     }

@@ -6,26 +6,25 @@ public class GameOverView : MonoBehaviour, IEventObsever
 {
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private Button _restartButton;
-    [SerializeField] private GameFacade _gameFacade;
     
 
     private void Start()
     {
         _restartButton.onClick.AddListener(RestartGame);
 
-        EventQueue.Instance.Subscribe(EEventIds.GameOver, this);
+        ServiceLocator.Instance.GetService<IEventQueue>().Subscribe(EEventIds.GameOver, this);
         gameObject.SetActive(false);
     }
 
     private void OnDestroy()
     {
-        EventQueue.Instance.UnSubscribe(EEventIds.GameOver, this);
+        ServiceLocator.Instance.GetService<IEventQueue>().UnSubscribe(EEventIds.GameOver, this);
     }
 
     private void RestartGame()
     {
-        _gameFacade.StartBattle();
-         gameObject.SetActive(false);
+        ServiceLocator.Instance.GetService<IGameFacade>().StartBattle();
+        gameObject.SetActive(false);
     }
     
 

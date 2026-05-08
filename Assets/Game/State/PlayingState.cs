@@ -1,31 +1,41 @@
 ﻿using System;
+using UnityEngine;
 
 public class PlayingState : IGameSate, IEventObsever
 {
     private Action<GameStateController.EGameState> _onStateFinished;
     private int _aliveShips;
     private bool _allShipsSpawned;
+    private bool _isCurrentState = false;
 
     public void Start(Action<GameStateController.EGameState> onStateFinished)
     {
+        _isCurrentState = true;
         _onStateFinished = onStateFinished;
         _aliveShips = 0;
         _allShipsSpawned = false;
+
+        var eventQueue = ServiceLocator.Instance.GetService<IEventQueue>();
         
-        EventQueue.Instance.Subscribe(EEventIds.ShipDestroyed, this);
-        EventQueue.Instance.Subscribe(EEventIds.ShipSpawned, this);
-        EventQueue.Instance.Subscribe(EEventIds.AllShipSpawned, this);
+        eventQueue.Subscribe(EEventIds.ShipDestroyed, this);
+        eventQueue.Subscribe(EEventIds.ShipSpawned, this);
+        eventQueue.Subscribe(EEventIds.AllShipSpawned, this);
     }
 
     public void Stop()
     {
-        EventQueue.Instance.UnSubscribe(EEventIds.ShipDestroyed, this);
-        EventQueue.Instance.UnSubscribe(EEventIds.ShipSpawned, this);
-        EventQueue.Instance.UnSubscribe(EEventIds.AllShipSpawned, this);
+        _isCurrentState = false;
+        var eventQueue = ServiceLocator.Instance.GetService<IEventQueue>();
+        
+        eventQueue.UnSubscribe(EEventIds.ShipDestroyed, this);
+        eventQueue.UnSubscribe(EEventIds.ShipSpawned, this);
+        eventQueue.UnSubscribe(EEventIds.AllShipSpawned, this);
     }
 
     public void Process(EventData eventData)
     {
+        if (!_isCurrentState) return;
+        
         switch (eventData.EventId)
         {
             case EEventIds.ShipDestroyed:
@@ -33,6 +43,7 @@ public class PlayingState : IGameSate, IEventObsever
                 var shipDestroyedEventData = (ShipDestroyedEventData) eventData;
                 if (shipDestroyedEventData.Team == ETeams.Ally)
                 {
+                    _isCurrentState = false;
                     _onStateFinished?.Invoke(GameStateController.EGameState.GameOver);
                     return;
                 }
@@ -54,6 +65,7 @@ public class PlayingState : IGameSate, IEventObsever
     {
         if (_aliveShips == 0 && _allShipsSpawned)
         {
+            _isCurrentState = false;
             _onStateFinished?.Invoke(GameStateController.EGameState.Victory);
         }
     }
