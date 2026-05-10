@@ -3,21 +3,19 @@ using UnityEngine;
 public class GameFacade : MonoBehaviour, IGameFacade
 {
     [SerializeField] private ShipInstaller _shipInstaller;
-    [SerializeField] private EnemySpawner _enemySpawner;
-    [SerializeField] private GameStateController gameStateController;
     
     public void StartBattle()
     {
-        ScoreView.Instance.Reset();
-        _enemySpawner.StartSpawn();
+        ServiceLocator.Instance.GetService<ScoreView>().Reset();
+        ServiceLocator.Instance.GetService<EnemySpawner>().StartSpawn();
         _shipInstaller.SpawnUserShip();
         ServiceLocator.Instance.GetService<LoadingScreen>().Hide();
-        gameStateController.Reset();
+        ServiceLocator.Instance.GetService<GameStateController>().Reset();
     }
 
     public void StopBattle()
     {
-        _enemySpawner.StopAndReset();
+        ServiceLocator.Instance.GetService<EnemySpawner>().StopAndReset();
         //ServiceLocator.Instance.GetService<LoadingScreen>().Show();
     }
     

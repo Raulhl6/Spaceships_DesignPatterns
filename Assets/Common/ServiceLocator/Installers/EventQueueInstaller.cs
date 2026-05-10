@@ -8,6 +8,5 @@ public class EventQueueInstaller : InstallerBase
     {
         DontDestroyOnLoad(_eventQueue.gameObject);
         serviceLocator.RegisterService<IEventQueue>(_eventQueue);
-        Debug.Log("Event queue registered");
     }
 }

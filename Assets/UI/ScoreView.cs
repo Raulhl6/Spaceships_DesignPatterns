@@ -4,25 +4,11 @@ using UnityEngine;
 
 public class ScoreView : MonoBehaviour, IEventObsever
 {
-
     
     [SerializeField] private TextMeshProUGUI _text;
-
-
+    
     private int _currentScore;
-
-    public static ScoreView Instance { get; private set; }
-    private ScoreView _instance;
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        
-        Instance = this;
-    }
+    
 
     private void Start()
     {

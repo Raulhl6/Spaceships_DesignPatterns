@@ -32,7 +32,7 @@ public class GameOverView : MonoBehaviour, IEventObsever
     {
         if (eventData.EventId == EEventIds.GameOver)
         {
-            _scoreText.SetText(ScoreView.Instance.GetCurrentScore().ToString());
+            _scoreText.SetText(ServiceLocator.Instance.GetService<ScoreView>().GetCurrentScore().ToString());
             gameObject.SetActive(true);
         }
     }
