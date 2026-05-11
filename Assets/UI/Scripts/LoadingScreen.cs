@@ -1,9 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LoadingScreen : MonoBehaviour
 {
-
     public void Show()
     {
         gameObject.SetActive(true);        

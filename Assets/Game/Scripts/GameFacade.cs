@@ -6,17 +6,17 @@ public class GameFacade : MonoBehaviour, IGameFacade
     
     public void StartBattle()
     {
+        ServiceLocator.Instance.GetService<ScreenFade>().Show();
+        ServiceLocator.Instance.GetService<GameStateController>().Reset();
         ServiceLocator.Instance.GetService<ScoreView>().Reset();
         ServiceLocator.Instance.GetService<EnemySpawner>().StartSpawn();
         _shipInstaller.SpawnUserShip();
-        ServiceLocator.Instance.GetService<LoadingScreen>().Hide();
-        ServiceLocator.Instance.GetService<GameStateController>().Reset();
+        ServiceLocator.Instance.GetService<ScreenFade>().Hide();
     }
 
     public void StopBattle()
     {
         ServiceLocator.Instance.GetService<EnemySpawner>().StopAndReset();
-        //ServiceLocator.Instance.GetService<LoadingScreen>().Show();
     }
     
 }
