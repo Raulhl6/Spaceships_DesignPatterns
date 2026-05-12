@@ -15,6 +15,10 @@ public class Menu : MonoBehaviour
         _stopButton.onClick.AddListener(StopBattle);
     }
 
-    private void StartBattle() => ServiceLocator.Instance.GetService<IGameFacade>().StartBattle();
+    private void StartBattle()
+    {
+        Debug.Log("Start Battle Button");
+        ServiceLocator.Instance.GetService<CommandQueue>().AddCommand(new StartBattleCommand());
+    }
     private void StopBattle() => ServiceLocator.Instance.GetService<IGameFacade>().StopBattle();
 }

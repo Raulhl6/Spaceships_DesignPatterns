@@ -14,6 +14,6 @@ public class MainMenu : MonoBehaviour
 
     private void OnStartButtonPressed()
     {
-        ServiceLocator.Instance.GetService<CommandQueue>().AddCommand(new LoadSceneCommand("Game"));
+        ServiceLocator.Instance.GetService<CommandQueue>().AddCommand(new LoadGameScene());
     }
 }

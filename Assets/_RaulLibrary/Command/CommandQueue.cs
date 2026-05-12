@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class CommandQueue
@@ -17,6 +18,7 @@ public class CommandQueue
 
     public void AddCommand(ICommand commandToEnqueue)
     {
+        Debug.Log($"Enqueuing command: {commandToEnqueue.GetType().Name}");
         _commandsToExecute.Enqueue(commandToEnqueue);
         RunNextCommand().WrapErrors();
     }
@@ -50,4 +52,12 @@ public static class AwaitableExtensions
             Debug.LogError($"Error executing command: {ex}");
         }
     }
+    
+    public static async Awaitable TaskCompleted()
+    {
+        await Completed();
+
+        async Awaitable Completed() {}
+    }
+    
 }
